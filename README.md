@@ -24,8 +24,8 @@ program, an evaluator, and configs — lives in its own folder under `tasks/`.
 
 ```bash
 # 1. Clone.
-git clone https://github.com/<org>/ranking-evolved.git
-cd ranking-evolved
+git clone https://github.com/jmnian/RankEvolve.git
+cd RankEvolve
 
 # 2. Install with uv (https://docs.astral.sh/uv/).
 #    The lockfile is committed; uv sync gives you the exact pinned env.

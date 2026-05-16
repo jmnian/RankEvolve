@@ -216,6 +216,12 @@ output/
 reports/
 legacy/
 
+# Runtime trace files can grow large and should never be committed.
+trace.jsonl
+evolution_trace.jsonl
+**/trace.jsonl
+**/evolution_trace.jsonl
+
 # Resolved configs may contain interpolated secrets (e.g. OPENAI_API_KEY)
 # Never commit them. Run dirs that need provenance can re-run from the
 # original config under tasks/<task>/configs/.
