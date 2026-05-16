@@ -107,6 +107,52 @@ at the seed and evaluator. `tasks/bm25/` is the canonical example.
 New proposers and strategies self-register via the registries in
 `proposers/base.py` and `search/base.py`.
 
+
+## Roadmap / next steps
+
+### Short term
+
+- [ ] **Encode remaining datasets** — `bright_stackoverflow` (107k docs) and
+  `bright_theoremqa_questions` (188k docs) caches need to be generated so the
+  full 3-dataset live re-eval can run. Use `--dataset bright:stackoverflow` etc.
+- [ ] **Run more evolution iterations** — the current best was found in ~9h /
+  50 iterations; longer runs with `--max-iterations 200` may surface better
+  approximations.
+- [ ] **Ablate objectives** — try recall-only and latency-only objectives as
+  controls; compare against the current mixed objective (0.4/0.3/0.3).
+
+### Baselines to compare
+
+| Baseline | Notes |
+|---|---|
+| Seed program (ExactMaxSim) | Done — stored in `tasks/late_interaction/baselines/exact_maxsim.cpu.json` |
+| BM25 (first-stage filter) | Classic two-stage: BM25 shortlist → MaxSim rerank |
+| Single-vector dense (Qwen 4b) | No token interactions; much faster |
+| GeminiEmbedding | |
+| WARP | Fast approximate MaxSim; strong GPU baseline |
+
+### Datasets to evaluate on
+
+| Dataset | Status |
+|---|---|
+| BEIR (scifact, nfcorpus, arguana, scidocs, fiqa, trec-covid) | Cache encodable; fiqa done |
+| BRIGHT (biology, earth_science, economics, stackoverflow, theoremqa) | Cache encodable; none done yet |
+| [Bright-Pro](https://huggingface.co/datasets/yale-nlp/Bright-Pro) | Not yet integrated |
+| Lotte | Not yet integrated |
+| [Obliq](https://arxiv.org/abs/2605.06235) | Not yet integrated |
+| [ViDoRe](https://arxiv.org/pdf/2601.08620) | Multimodal; requires separate encoder |
+
+### Framework improvements
+
+- [ ] **QL task migration** — files in `tasks/ql/` carry "STATUS: NOT YET
+  MIGRATED"; port them to the current evaluator interface.
+- [ ] **Multi-model proposer experiment** — compare open-source LLM proposers
+  against GPT-4o / Claude for program generation quality.
+- [ ] **Structured diff format** — evaluate whether SEARCH/REPLACE diffs vs
+  full-file rewrites affect convergence speed.
+
+---
+
 ## Citation
 
 ```bibtex
