@@ -1,4 +1,4 @@
-"""ranking-evolved CLI.
+"""rankevolve CLI.
 
 Subcommands:
   run             — run an evolution loop end-to-end against a config YAML.
@@ -18,7 +18,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from ranking_evolved._test_dashboard import write_dashboard
+from rankevolve._test_dashboard import write_dashboard
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 REPORTS_DIR = REPO_ROOT / "reports"
@@ -43,7 +43,7 @@ _PYTEST_NO_TESTS_COLLECTED = 5
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="ranking-evolved")
+    parser = argparse.ArgumentParser(prog="rankevolve")
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     p_capref = sub.add_parser(
@@ -165,7 +165,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "replay-dashboard":
         return _cmd_replay_dashboard(run=args.run, out=args.out)
     if args.cmd == "inspect-step":
-        from ranking_evolved.cli_inspect import cmd_inspect_step
+        from rankevolve.cli_inspect import cmd_inspect_step
 
         return cmd_inspect_step(
             run_dir=args.run_dir,
@@ -182,13 +182,13 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def _cmd_refresh_best(*, run: Path) -> int:
-    from ranking_evolved.core.controller import export_best_program
-    from ranking_evolved.core.run_store import RunStore
+    from rankevolve.core.controller import export_best_program
+    from rankevolve.core.run_store import RunStore
 
     run_dir = run.resolve()
     db_path = run_dir / "run.db"
     if not db_path.exists():
-        print(f"[ranking-evolved] run dir has no run.db: {run_dir}", file=sys.stderr)
+        print(f"[rankevolve] run dir has no run.db: {run_dir}", file=sys.stderr)
         return 2
 
     store = RunStore(db_path)
@@ -198,14 +198,14 @@ def _cmd_refresh_best(*, run: Path) -> int:
         store.close()
 
     if not programs:
-        print(f"[ranking-evolved] no programs found in {db_path}", file=sys.stderr)
+        print(f"[rankevolve] no programs found in {db_path}", file=sys.stderr)
         return 2
 
     best = max(programs, key=lambda p: float(p.metrics.get("combined_score", 0.0)))
     export_best_program(run_dir, best)
-    print(f"[ranking-evolved] refreshed best: {best.id}")
-    print(f"[ranking-evolved] created at step: {best.iteration_found}")
-    print(f"[ranking-evolved] best dir: {run_dir / 'best'}")
+    print(f"[rankevolve] refreshed best: {best.id}")
+    print(f"[rankevolve] created at step: {best.iteration_found}")
+    print(f"[rankevolve] best dir: {run_dir / 'best'}")
     return 0
 
 
@@ -217,20 +217,20 @@ def _cmd_run(
     max_iterations: int | None,
     resume: Path | None = None,
 ) -> int:
-    from ranking_evolved.config.loader import load_config
-    from ranking_evolved.core.controller import Controller
-    from ranking_evolved.core.logs import make_run_logger
-    from ranking_evolved.core.manifest import (
+    from rankevolve.config.loader import load_config
+    from rankevolve.core.controller import Controller
+    from rankevolve.core.logs import make_run_logger
+    from rankevolve.core.manifest import (
         build_manifest,
         make_run_id,
         update_manifest,
         write_manifest,
     )
-    from ranking_evolved.evaluation.runner import EvaluatorRunner
+    from rankevolve.evaluation.runner import EvaluatorRunner
 
     # Importing the proposers package side-effect-registers every proposer.
-    import ranking_evolved.proposers  # noqa: F401
-    from ranking_evolved.proposers.base import REGISTRY as PROPOSERS
+    import rankevolve.proposers  # noqa: F401
+    from rankevolve.proposers.base import REGISTRY as PROPOSERS
 
     config = load_config(config_path, overrides=overrides)
     if replay:
@@ -242,10 +242,10 @@ def _cmd_run(
     if resume is not None:
         run_dir = resume.resolve()
         if not run_dir.exists():
-            print(f"[ranking-evolved] resume run dir does not exist: {run_dir}", file=sys.stderr)
+            print(f"[rankevolve] resume run dir does not exist: {run_dir}", file=sys.stderr)
             return 2
         if not (run_dir / "run.db").exists():
-            print(f"[ranking-evolved] resume run dir has no run.db: {run_dir}", file=sys.stderr)
+            print(f"[rankevolve] resume run dir has no run.db: {run_dir}", file=sys.stderr)
             return 2
         run_id = run_dir.name
     else:
@@ -268,7 +268,7 @@ def _cmd_run(
     proposer_kind = config.proposer.kind
     if proposer_kind not in PROPOSERS:
         print(
-            f"[ranking-evolved] unknown proposer {proposer_kind!r}; "
+            f"[rankevolve] unknown proposer {proposer_kind!r}; "
             f"available: {sorted(PROPOSERS.keys())}",
             file=sys.stderr,
         )
@@ -292,7 +292,7 @@ def _cmd_run(
     )
 
     logger = make_run_logger(
-        "ranking_evolved.controller",
+        "rankevolve.controller",
         run_dir / "run.log",
         level=config.logging.level,
         max_mb=config.logging.run_log_max_mb,
@@ -317,21 +317,21 @@ def _cmd_run(
         controller.close()
     update_manifest(run_dir, ended_at=_iso_now(), exit_status="ok")
 
-    print(f"[ranking-evolved] run dir: {run_dir}")
-    print(f"[ranking-evolved] best: {best.id}")
-    print(f"[ranking-evolved] best metrics: {json.dumps(best.metrics, indent=2)}")
+    print(f"[rankevolve] run dir: {run_dir}")
+    print(f"[rankevolve] best: {best.id}")
+    print(f"[rankevolve] best metrics: {json.dumps(best.metrics, indent=2)}")
     summary_path = run_dir / "experiment_summary.json"
     metrics_path = run_dir / "program_metrics.jsonl"
     baseline_path = run_dir / "baseline_latency.json"
     if summary_path.exists():
-        print(f"[ranking-evolved] summary:        {summary_path}")
+        print(f"[rankevolve] summary:        {summary_path}")
     if metrics_path.exists():
-        print(f"[ranking-evolved] per-program:    {metrics_path}")
+        print(f"[rankevolve] per-program:    {metrics_path}")
     if baseline_path.exists():
-        print(f"[ranking-evolved] baseline:       {baseline_path}")
+        print(f"[rankevolve] baseline:       {baseline_path}")
     print(
-        f"[ranking-evolved] replay HTML:    "
-        f"uv run ranking-evolved replay-dashboard --run {run_dir} --out report.html"
+        f"[rankevolve] replay HTML:    "
+        f"uv run rankevolve replay-dashboard --run {run_dir} --out report.html"
     )
     return 0
 
@@ -339,12 +339,12 @@ def _cmd_run(
 def _ensure_console_logging(logger: logging.Logger, *, level: str) -> None:
     """Attach one concise stdout handler for live long-run progress."""
     has_console = any(
-        getattr(handler, "_ranking_evolved_console", False) for handler in logger.handlers
+        getattr(handler, "_rankevolve_console", False) for handler in logger.handlers
     )
     if has_console:
         return
     handler = logging.StreamHandler(sys.stdout)
-    handler._ranking_evolved_console = True  # type: ignore[attr-defined]
+    handler._rankevolve_console = True  # type: ignore[attr-defined]
     handler.setLevel(level)
     handler.setFormatter(logging.Formatter("%(message)s"))
     logger.addHandler(handler)
@@ -372,24 +372,24 @@ def _objective_env(objective) -> dict[str, str]:
 
 
 def _cmd_replay_capture(*, openevolve_output: Path, out: Path, max_steps: int | None) -> int:
-    from ranking_evolved.core.replay_capture import capture_reference
+    from rankevolve.core.replay_capture import capture_reference
 
     written = capture_reference(
         openevolve_output=openevolve_output, out_dir=out, max_steps=max_steps
     )
-    print(f"[ranking-evolved] wrote {len(written)} reference step file(s) to {out}")
+    print(f"[rankevolve] wrote {len(written)} reference step file(s) to {out}")
     if written:
-        print(f"[ranking-evolved]   first: {written[0].name}")
-        print(f"[ranking-evolved]   last:  {written[-1].name}")
+        print(f"[rankevolve]   first: {written[0].name}")
+        print(f"[rankevolve]   last:  {written[-1].name}")
     return 0
 
 
 def _cmd_replay_dashboard(*, run: Path, out: Path | None) -> int:
-    from ranking_evolved.core.replay_dashboard import render_dashboard
+    from rankevolve.core.replay_dashboard import render_dashboard
 
     out_path = out or (run / "replay_dashboard.html")
     rendered = render_dashboard(run, out_path=out_path)
-    print(f"[ranking-evolved] dashboard: {rendered}")
+    print(f"[rankevolve] dashboard: {rendered}")
     return 0
 
 
@@ -415,7 +415,7 @@ def _build_proposer(kind: str, cfg) -> object:
     Proposer modules self-register via `@register_proposer`; importing the
     `proposers` package (done at the top of `_cmd_run`) populates REGISTRY.
     """
-    from ranking_evolved.proposers.base import REGISTRY
+    from rankevolve.proposers.base import REGISTRY
 
     cls = REGISTRY[kind]
     primary_model = (cfg.models[0]["name"] if cfg.models else None) or "default"
@@ -538,16 +538,16 @@ def _cmd_test_dashboard(extra_pytest_args: list[str], *, include_legacy: bool) -
         # Nothing to run yet (Phase 0 state). Write a valid empty dashboard directly.
         json_path, html_path = write_dashboard(repo_root=REPO_ROOT, records=[], exit_status=0)
         print(
-            "[ranking-evolved] no dashboard-instrumented tests yet "
+            "[rankevolve] no dashboard-instrumented tests yet "
             "(skipping pytest); wrote empty dashboard."
         )
-        print(f"[ranking-evolved] dashboard: {html_path}")
-        print(f"[ranking-evolved] json:      {json_path}")
+        print(f"[rankevolve] dashboard: {html_path}")
+        print(f"[rankevolve] json:      {json_path}")
         return 0
 
     cmd = [sys.executable, "-m", "pytest", "--tb=short", "-q", *targets, *extra]
-    print(f"[ranking-evolved] running: {' '.join(cmd)}")
-    print(f"[ranking-evolved] cwd: {REPO_ROOT}")
+    print(f"[rankevolve] running: {' '.join(cmd)}")
+    print(f"[rankevolve] cwd: {REPO_ROOT}")
     result = subprocess.run(cmd, cwd=REPO_ROOT)
 
     if not DASHBOARD_HTML.exists():
@@ -556,8 +556,8 @@ def _cmd_test_dashboard(extra_pytest_args: list[str], *, include_legacy: bool) -
         write_dashboard(repo_root=REPO_ROOT, records=[], exit_status=int(result.returncode))
 
     print()
-    print(f"[ranking-evolved] dashboard: {DASHBOARD_HTML}")
-    print(f"[ranking-evolved] json:      {DASHBOARD_JSON}")
+    print(f"[rankevolve] dashboard: {DASHBOARD_HTML}")
+    print(f"[rankevolve] json:      {DASHBOARD_JSON}")
 
     if result.returncode == _PYTEST_NO_TESTS_COLLECTED:
         return 0

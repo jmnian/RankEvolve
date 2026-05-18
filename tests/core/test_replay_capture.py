@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from ranking_evolved.core.replay_capture import capture_reference
+from rankevolve.core.replay_capture import capture_reference
 
 
 def _write_oe_run(root: Path, *, n_iters: int = 2) -> Path:
@@ -68,7 +68,7 @@ def test_capture_reference_writes_one_file_per_iter(tmp_path: Path, record_io):
         }
 
     out_d = record_io(
-        module="src/ranking_evolved/core/replay_capture.py",
+        module="src/rankevolve/core/replay_capture.py",
         function="capture_reference",
         input={"n_iters": 2},
         run=run,
@@ -108,7 +108,7 @@ def test_capture_reference_handles_missing_checkpoint(tmp_path: Path, record_io)
         }
 
     out_d = record_io(
-        module="src/ranking_evolved/core/replay_capture.py",
+        module="src/rankevolve/core/replay_capture.py",
         function="capture_reference (no checkpoints)",
         input={"trace_only": True},
         run=run,

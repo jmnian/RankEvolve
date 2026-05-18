@@ -9,13 +9,13 @@ from __future__ import annotations
 
 import pytest
 
-from ranking_evolved.config.objective import (
+from rankevolve.config.objective import (
     AggregationConfig,
     LatencyConfig,
     ObjectiveConfig,
     ObjectiveWeights,
 )
-from ranking_evolved.evaluation.objective_math import (
+from rankevolve.evaluation.objective_math import (
     compute_objective,
     is_hard_slowdown,
     latency_score_from_ratio,

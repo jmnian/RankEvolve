@@ -1,4 +1,4 @@
-"""`ranking-evolved inspect-step` — section-scoped reader with always-on/snapshot fallback."""
+"""`rankevolve inspect-step` — section-scoped reader with always-on/snapshot fallback."""
 from __future__ import annotations
 
 import json
@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from ranking_evolved.cli_inspect import cmd_inspect_step
+from rankevolve.cli_inspect import cmd_inspect_step
 
 
 def _write_step_snapshot(replay_dir: Path, step: int, **overrides) -> Path:

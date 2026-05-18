@@ -12,7 +12,7 @@ Usage in a test:
 
     def test_apply_diff(record_io):
         out = record_io(
-            module="src/ranking_evolved/prompts/diff.py",
+            module="src/rankevolve/prompts/diff.py",
             function="apply_search_replace",
             input={"parent": parent, "diff": diff},
             run=lambda: apply_search_replace(parent, diff),
@@ -28,7 +28,7 @@ from typing import Any, Callable
 
 import pytest
 
-from ranking_evolved._test_dashboard import write_dashboard
+from rankevolve._test_dashboard import write_dashboard
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 

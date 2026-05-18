@@ -10,7 +10,7 @@
 #
 # Run / review workflow:
 #   export OPENAI_API_KEY=...     # or put it in .env
-# uv run ranking-evolved run \
+# uv run rankevolve run \
 #   --config tasks/late_interaction/configs/composable_latency_aware.yaml \
 #   --replay --max-iterations 2
 

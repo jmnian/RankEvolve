@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ranking_evolved.core.logs import make_run_logger
+from rankevolve.core.logs import make_run_logger
 
 
 def test_logger_rotates_at_size_cap(tmp_path: Path, record_io):
@@ -25,7 +25,7 @@ def test_logger_rotates_at_size_cap(tmp_path: Path, record_io):
         return {"files": files}
 
     out = record_io(
-        module="src/ranking_evolved/core/logs.py",
+        module="src/rankevolve/core/logs.py",
         function="make_run_logger",
         input={"max_mb": 1, "backups": 2, "writes": 400, "payload_bytes": 4096},
         run=run,
@@ -53,7 +53,7 @@ def test_logger_gzips_rotated(tmp_path: Path, record_io):
         return {"files": files, "has_gz": any(f.endswith(".gz") for f in files)}
 
     out = record_io(
-        module="src/ranking_evolved/core/logs.py",
+        module="src/rankevolve/core/logs.py",
         function="GzipRotatingFileHandler.doRollover",
         input={"max_mb": 1, "backups": 2, "gzip_rotated": True},
         run=run,

@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from ranking_evolved.core.trace import TraceWriter
+from rankevolve.core.trace import TraceWriter
 
 
 def test_trace_appends_line_per_iteration(tmp_path: Path, record_io):
@@ -29,7 +29,7 @@ def test_trace_appends_line_per_iteration(tmp_path: Path, record_io):
         return [json.loads(line) for line in path.read_text().splitlines()]
 
     out = record_io(
-        module="src/ranking_evolved/core/trace.py",
+        module="src/rankevolve/core/trace.py",
         function="TraceWriter.append",
         input={"n_iters": 3},
         run=run,

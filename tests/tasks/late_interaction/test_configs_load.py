@@ -1,7 +1,7 @@
 """The freeform_latency_aware.yaml must parse through the framework loader.
 
 This catches typos in field names and rejected unknown keys (the loader runs
-in strict mode — see `src/ranking_evolved/config/loader.py`).
+in strict mode — see `src/rankevolve/config/loader.py`).
 """
 
 from __future__ import annotations
@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from ranking_evolved.config.loader import load_config
+from rankevolve.config.loader import load_config
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]

@@ -1,4 +1,4 @@
-"""`ranking-evolved inspect-step` — read what happened at a single iteration.
+"""`rankevolve inspect-step` — read what happened at a single iteration.
 
 Two data layers exist on disk per run, and this command reads both:
 

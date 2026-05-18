@@ -10,8 +10,8 @@ from __future__ import annotations
 
 import time
 
-from ranking_evolved.core.types import Program
-from ranking_evolved.search.map_elites_islands import (
+from rankevolve.core.types import Program
+from rankevolve.search.map_elites_islands import (
     MapElitesIslandsConfig,
     MapElitesIslandsStrategy,
     _ast_node_count,
@@ -84,7 +84,7 @@ def test_initialize_seeds_every_island(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy.initialize",
         input={"num_islands": 3, "seed_score": 0.4},
         run=run,
@@ -129,7 +129,7 @@ def test_admit_replaces_cell_when_better(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy.admit",
         input={"scenario": "cell replacement on better fitness only"},
         run=run,
@@ -173,7 +173,7 @@ def test_archive_keeps_best_at_capacity(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy._update_archive",
         input={"archive_cap": 3, "scores_admitted": [0.1, 0.2, 0.3, 0.4, 0.6, 0.95]},
         run=run,
@@ -204,7 +204,7 @@ def test_population_limit_evicts_worst_keeps_best(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy._enforce_population_limit",
         input={"population_size": 4, "scores": [0.1, 0.2, 0.3, 0.4, 0.5]},
         run=run,
@@ -245,7 +245,7 @@ def test_migration_fires_at_interval_and_skips_duplicates(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy._migrate",
         input={"num_islands": 2, "migration_interval": 2, "migration_rate": 1.0},
         run=run,
@@ -277,7 +277,7 @@ def test_sample_returns_parent_and_inspirations_from_same_island(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy.sample",
         input={"num_inspirations": 2},
         run=run,
@@ -302,7 +302,7 @@ def test_feature_coords_complexity_diversity_built_ins(record_io):
         return {"coords_within_bin_range": all(0 <= c < 5 for c in coords), "n_dims": len(coords)}
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy._compute_feature_coords",
         input={"feature_dimensions": ["complexity", "diversity"], "feature_bins": 5},
         run=run,
@@ -336,7 +336,7 @@ def test_adaptive_complexity_rebucket_moves_existing_program(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy._rebucket_feature_maps",
         input={"feature_dimensions": ["complexity"], "feature_bins": 3},
         run=run,
@@ -375,7 +375,7 @@ def test_adaptive_rebucket_cell_host_uses_strict_score(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy._rebucket_feature_maps",
         input={"collision_rule": "strict fitness replacement"},
         run=run,
@@ -396,7 +396,7 @@ def test_feature_coords_unknown_dim_raises(record_io):
             return str(e)
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy._compute_feature_coords",
         input={"unknown_dim": "nonexistent_metric"},
         run=run,
@@ -424,7 +424,7 @@ def test_sampling_decisions_records_island_local_top(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy.sampling_decisions",
         input={"iteration": 2},
         run=run,
@@ -454,7 +454,7 @@ def test_recent_programs_are_island_local_and_sorted_by_iteration(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy.recent_programs",
         input={"exclude_program_id": "p3", "n": 3},
         run=run,
@@ -497,7 +497,7 @@ def test_determinism_same_seed_same_choices(record_io):
         return {"a_eq_b": a == b, "ids_a": a}
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy.sample (determinism)",
         input={"seed_runs": [123, 123]},
         run=run,
@@ -522,7 +522,7 @@ def test_snapshot_captures_full_state(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy.snapshot",
         input={},
         run=run,
@@ -559,7 +559,7 @@ def test_state_dict_roundtrips_sampling_state(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy.state_dict/load_state_dict",
         input={"roundtrip": True},
         run=run,
@@ -572,7 +572,7 @@ def test_state_dict_roundtrips_sampling_state(record_io):
 
 def test_strategy_registered():
     """The decorator must register the strategy under the canonical name."""
-    from ranking_evolved.search.base import REGISTRY
+    from rankevolve.search.base import REGISTRY
 
     assert "map_elites_islands" in REGISTRY
     # Registered factory points at the class.
@@ -622,7 +622,7 @@ def test_admit_stamps_diversity_and_complexity_from_source_code(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/search/map_elites_islands.py",
+        module="src/rankevolve/search/map_elites_islands.py",
         function="MapElitesIslandsStrategy._admit_into_island",
         input={"feature_dimensions": ["complexity", "diversity"]},
         run=run,

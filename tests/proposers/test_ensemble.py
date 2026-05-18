@@ -3,9 +3,9 @@ from __future__ import annotations
 
 import asyncio
 
-from ranking_evolved.core.types import Prompt
-from ranking_evolved.proposers.ensemble import EnsembleProposer
-from ranking_evolved.proposers.fake import FakeProposer
+from rankevolve.core.types import Prompt
+from rankevolve.proposers.ensemble import EnsembleProposer
+from rankevolve.proposers.fake import FakeProposer
 
 
 def _prompt(iter_: int = 1) -> Prompt:
@@ -26,7 +26,7 @@ def test_ensemble_dispatches_by_weight_deterministically(record_io):
         ]
 
     out = record_io(
-        module="src/ranking_evolved/proposers/ensemble.py",
+        module="src/rankevolve/proposers/ensemble.py",
         function="EnsembleProposer.propose (weighted to b)",
         input={"members": [("a", 0.0), ("b", 1.0)], "n_calls": 5},
         run=run,
@@ -47,7 +47,7 @@ def test_ensemble_uses_seeded_rng(record_io):
         return {"out1": out1, "out2": out2, "equal": out1 == out2}
 
     out = record_io(
-        module="src/ranking_evolved/proposers/ensemble.py",
+        module="src/rankevolve/proposers/ensemble.py",
         function="EnsembleProposer.propose (deterministic)",
         input={"random_seed": 99, "n_calls": 10},
         run=run,

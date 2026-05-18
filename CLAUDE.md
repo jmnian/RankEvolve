@@ -4,10 +4,10 @@ Guidance for Claude Code (claude.ai/code) when working in this repository.
 
 ## Project overview
 
-`ranking-evolved` is a modular framework for evolving retrieval algorithms with
+`rankevolve` is a modular framework for evolving retrieval algorithms with
 LLM-driven program synthesis. Each task (BM25, QL, etc.) lives in its own
 folder under `tasks/` with seeds + evaluator + configs. The framework engine
-is in `src/ranking_evolved/`.
+is in `src/rankevolve/`.
 
 The OpenEvolve dependency was removed during the restructuring; the engine is
 now in-house. Pre-restructuring code lives in `legacy/` and **must not be
@@ -15,14 +15,14 @@ imported** from `src/` or `tasks/`.
 
 ## Layout
 
-- `src/ranking_evolved/` — framework only: `core/`, `search/`, `proposers/`,
+- `src/rankevolve/` — framework only: `core/`, `search/`, `proposers/`,
   `prompts/`, `evaluation/`, `config/`, `cli.py`.
 - `tasks/bm25/` — active BM25 task: `library.py` (reference BM25),
   `evaluator.py` + `evaluator_worker.py`, `seeds/{freeform,constrained,composable}.py`,
   `interface.py` (BM25Candidate Protocol), `configs/*.yaml`.
 - `tasks/_shared/` — `datasets.py` (BRIGHT/BEIR/TREC-DL loaders), `metrics.py`.
 - `tasks/ql/` — structurally relocated only; every QL file carries a
-  "STATUS: NOT YET MIGRATED" header. Do not run via `ranking-evolved`.
+  "STATUS: NOT YET MIGRATED" header. Do not run via `rankevolve`.
 - `tasks/evolution_algo_test/` — smoke fixture for `tests/test_smoke.py`.
 - `tests/` — `core/`, `search/`, `proposers/`, `prompts/`, `evaluation/`,
   `config/`, plus library tests (`test_bm25.py`, `test_metrics.py`,
@@ -40,16 +40,16 @@ imported** from `src/` or `tasks/`.
 uv sync
 
 # Run the dashboard tests (Phase-1 modules + library + smoke).
-uv run ranking-evolved test-dashboard
+uv run rankevolve test-dashboard
 
 # Drive an evolution loop on a config.
-uv run ranking-evolved run --config tasks/bm25/configs/freeform_latency_aware.yaml --replay --max-iterations 50
+uv run rankevolve run --config tasks/bm25/configs/freeform_latency_aware.yaml --replay --max-iterations 50
 
 # Resume an in-progress run.
-uv run ranking-evolved run --resume output/bm25_freeform_latency_aware/<run_id> --max-iterations 100
+uv run rankevolve run --resume output/bm25_freeform_latency_aware/<run_id> --max-iterations 100
 
 # Render the per-step replay dashboard for a run.
-uv run ranking-evolved replay-dashboard --run output/bm25_freeform_latency_aware/<run_id>
+uv run rankevolve replay-dashboard --run output/bm25_freeform_latency_aware/<run_id>
 
 # Lint / type-check.
 uv run ruff format
@@ -75,14 +75,14 @@ metrics.json`, `logs/run.log`.
   (search), `PromptBuilder` (prompts/sampler.py), and the user-supplied
   `evaluate(program_path)` function. See `docs/architecture.md` for the
   Protocol shapes.
-- The controller (`src/ranking_evolved/core/controller.py`) is the main
+- The controller (`src/rankevolve/core/controller.py`) is the main
   loop: parent select → inspiration select → prompt build → propose → diff
   apply → evaluate → admit → trace.
-- `src/ranking_evolved/evaluation/runner.py` loads the evaluator by file
+- `src/rankevolve/evaluation/runner.py` loads the evaluator by file
   path with `importlib.util.spec_from_file_location` and isolates
   optionally as a subprocess; env vars from `ObjectiveConfig` are scoped
   per call.
-- The latency-aware objective (`src/ranking_evolved/evaluation/objective_math.py`)
+- The latency-aware objective (`src/rankevolve/evaluation/objective_math.py`)
   reads `baseline_latency.json` written during seed evaluation and
   recomputes `combined_score = w_recall*recall + w_ndcg*ndcg + w_lat*lat_score`.
 
@@ -94,7 +94,7 @@ metrics.json`, `logs/run.log`.
   on anything under `legacy/`.
 - **QL files are quarantined.** Until they are migrated, do not import them
   from active code, do not run them through the framework.
-- **Tests must use `record_io`.** New modules in `src/ranking_evolved/`
+- **Tests must use `record_io`.** New modules in `src/rankevolve/`
   ship with at least one dashboard-instrumented test.
 
 ## Useful environment variables

@@ -18,27 +18,27 @@
 # Run / review workflow:
 #   export OPENAI_API_KEY=...
 #   # Smoke: create a run and stop after 2 total iterations.
-# uv run ranking-evolved run \
+# uv run rankevolve run \
 #   --config tasks/late_interaction/configs/freeform_latency_aware.yaml \
 #   --replay --max-iterations 2
 #
 #   # Resume that same run to 100 total iterations.
-# uv run ranking-evolved run \
+# uv run rankevolve run \
 #   --config tasks/late_interaction/configs/freeform_latency_aware.yaml \
 #   --resume <run_dir> --max-iterations 100
 
-# uv run ranking-evolved run \
+# uv run rankevolve run \
 #   --config tasks/late_interaction/configs/freeform_latency_aware.yaml \
 #   --resume output/late_interaction_freeform_latency_aware/20260503_124613_6c1309 --max-iterations 100
 
 
 #   # Inspect the exact prompt, parent, inspirations, db state, diff, and eval.
-# uv run ranking-evolved inspect-step \
+# uv run rankevolve inspect-step \
 #   --run <run_dir> --step 30 \
 #   summary prompt parent inspirations population-before population-after diff eval
 #
 #   # Render all captured replay snapshots into one HTML report.
-#   uv run ranking-evolved replay-dashboard \
+#   uv run rankevolve replay-dashboard \
 #     --run <run_dir> --out <run_dir>/replay_dashboard.html
 #
 # Re-evaluate final winners separately with 3 timed repeats for a lower-noise

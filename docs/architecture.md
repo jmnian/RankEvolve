@@ -2,7 +2,7 @@
 
 This document describes the modular framework layered over the original RankEvolve work.
 Phase-by-phase content is filled in as each migration phase lands; for the full plan see
-`C:\Users\Jinming\.claude\plans\examine-ranking-evolved-i-need-fancy-eclipse.md`.
+`C:\Users\Jinming\.claude\plans\examine-rankevolve-i-need-fancy-eclipse.md`.
 
 ## Dependency management — uv only
 
@@ -24,7 +24,7 @@ lockfile in the same commit.
 
 (Defined in the plan; first implementation lands in Phase 1.)
 
-Each `ranking-evolved run` produces one self-contained directory under
+Each `rankevolve run` produces one self-contained directory under
 `output/<task>/<timestamp>_<short-hash>/` containing:
 
 - `config.resolved.yaml` — fully-resolved config
@@ -50,5 +50,5 @@ module under test and the exact output observed.
 | `reports/test_dashboard.json`   | machine-readable record of every test    |
 | `reports/test_dashboard.html`   | rendered table; one row per recorded I/O |
 
-Regenerate with `uv run ranking-evolved test-dashboard`. CI runs the same command
+Regenerate with `uv run rankevolve test-dashboard`. CI runs the same command
 and uploads the HTML as a build artifact on every PR.

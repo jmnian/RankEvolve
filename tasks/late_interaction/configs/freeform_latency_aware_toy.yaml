@@ -19,7 +19,7 @@
 #    ~5–15 s on CPU, so 20 iterations finish in a few minutes.
 #
 # Run:
-#   uv run ranking-evolved run \
+#   uv run rankevolve run \
 #     --config tasks/late_interaction/configs/freeform_latency_aware_toy.yaml \
 #     --replay --max-iterations 20
 #

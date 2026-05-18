@@ -3,8 +3,8 @@
 #
 # This file was moved during the Phase-2 modular restructuring but its
 # imports, evaluator wiring, and seed contract have NOT been validated
-# against the new `ranking-evolved` framework. Do NOT run via
-# `ranking-evolved run --config tasks/ql/...`. Migrate in a future
+# against the new `rankevolve` framework. Do NOT run via
+# `rankevolve run --config tasks/ql/...`. Migrate in a future
 # phase: rewrite imports, add tasks/ql/configs/, add tasks/ql/evaluator.py.
 # =====================================================================
 
@@ -40,7 +40,7 @@ from typing import TYPE_CHECKING
 import numpy as np
 from scipy.sparse import csr_matrix, lil_matrix
 
-from ranking_evolved.bm25 import (
+from rankevolve.bm25 import (
     ENGLISH_STOPWORDS,
     LUCENE_STOPWORDS,
     LuceneTokenizer as _BaseLuceneTokenizer,

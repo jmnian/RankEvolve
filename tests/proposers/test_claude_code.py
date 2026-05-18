@@ -3,8 +3,8 @@ from __future__ import annotations
 
 import asyncio
 
-from ranking_evolved.core.types import Prompt
-from ranking_evolved.proposers.claude_code import ClaudeCodeProposer
+from rankevolve.core.types import Prompt
+from rankevolve.proposers.claude_code import ClaudeCodeProposer
 
 
 DIFF = "<<<<<<< SEARCH\nold\n=======\nnew\n>>>>>>> REPLACE"
@@ -39,7 +39,7 @@ def test_claude_code_invokes_with_stdin_pipe(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/proposers/claude_code.py",
+        module="src/rankevolve/proposers/claude_code.py",
         function="ClaudeCodeProposer.propose",
         input={"binary": "claude", "extra_args": ["--dangerously-skip-permissions"]},
         run=run,
@@ -69,7 +69,7 @@ def test_claude_code_nonzero_exit_raises(record_io):
             return str(exc)
 
     out = record_io(
-        module="src/ranking_evolved/proposers/claude_code.py",
+        module="src/rankevolve/proposers/claude_code.py",
         function="ClaudeCodeProposer.propose (nonzero exit)",
         input={"returncode": 17, "stderr": "boom"},
         run=run,

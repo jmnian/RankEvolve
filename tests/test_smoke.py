@@ -20,7 +20,7 @@ from pathlib import Path
 
 import pytest
 
-from ranking_evolved.config.base import (
+from rankevolve.config.base import (
     Config,
     EvaluationConfig,
     EvolutionConfig,
@@ -30,17 +30,17 @@ from ranking_evolved.config.base import (
     TaskConfig,
     TraceConfig,
 )
-from ranking_evolved.config.objective import ObjectiveConfig
-from ranking_evolved.core.controller import (
+from rankevolve.config.objective import ObjectiveConfig
+from rankevolve.core.controller import (
     Controller,
     _explode_per_dataset,
     _merge_outcome_into_metrics,
 )
-from ranking_evolved.evaluation.objective_math import ObjectiveOutcome
-from ranking_evolved.evaluation.runner import EvaluatorRunner
-from ranking_evolved.prompts.sampler import PromptConfig
-from ranking_evolved.proposers.fake import FakeProposer
-from ranking_evolved.search.map_elites_islands import MapElitesIslandsConfig
+from rankevolve.evaluation.objective_math import ObjectiveOutcome
+from rankevolve.evaluation.runner import EvaluatorRunner
+from rankevolve.prompts.sampler import PromptConfig
+from rankevolve.proposers.fake import FakeProposer
+from rankevolve.search.map_elites_islands import MapElitesIslandsConfig
 
 
 # A trivial seed program. The evaluator scores it by literal "x = N" magnitude.
@@ -107,7 +107,7 @@ def _make_config(seed: Path, evaluator: Path, *, capture_replay: bool) -> Config
 
 def test_explode_per_dataset_ignores_derived_baseline_metrics(record_io):
     out = record_io(
-        module="src/ranking_evolved/core/controller.py",
+        module="src/rankevolve/core/controller.py",
         function="_explode_per_dataset",
         input={
             "toy_recall_at_1000": 0.8,
@@ -150,7 +150,7 @@ def test_merge_outcome_writes_average_effectiveness_metrics(record_io):
     )
 
     out = record_io(
-        module="src/ranking_evolved/core/controller.py",
+        module="src/rankevolve/core/controller.py",
         function="_merge_outcome_into_metrics",
         input={"avg_recall": 0.6, "avg_ndcg": 0.3},
         run=lambda: (
@@ -216,7 +216,7 @@ def test_smoke_5_iterations_produces_complete_run_dir(tmp_path: Path, record_io)
         }
 
     out = record_io(
-        module="src/ranking_evolved/core/controller.py",
+        module="src/rankevolve/core/controller.py",
         function="Controller.run (5-iter smoke)",
         input={
             "max_iterations": 5,
@@ -335,7 +335,7 @@ def test_controller_resume_continues_existing_run_without_duplicate_seed(tmp_pat
         }
 
     out = record_io(
-        module="src/ranking_evolved/core/controller.py",
+        module="src/rankevolve/core/controller.py",
         function="Controller.run (resume)",
         input={"first_max_iterations": 2, "second_total_max_iterations": 4},
         run=lambda: __import__("asyncio").run(go_inner()),
@@ -391,7 +391,7 @@ def test_candidate_retries_recover_from_diff_failure(tmp_path: Path, record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/core/controller.py",
+        module="src/rankevolve/core/controller.py",
         function="Controller._step (retry loop recovery)",
         input={"candidate_retries": 3, "scripted": "fail, fail, succeed"},
         run=lambda: __import__("asyncio").run(go_inner()),
@@ -438,7 +438,7 @@ def test_candidate_retries_give_up_after_max_attempts(tmp_path: Path, record_io)
         }
 
     out = record_io(
-        module="src/ranking_evolved/core/controller.py",
+        module="src/rankevolve/core/controller.py",
         function="Controller._step (retry loop give-up)",
         input={"candidate_retries": 3, "scripted": "fail x3"},
         run=lambda: __import__("asyncio").run(go_inner()),
@@ -471,7 +471,7 @@ def test_smoke_replay_step_has_expected_shape(tmp_path: Path, record_io):
         return json.loads((run_dir / "replay" / "step_0001.json").read_text())
 
     step = record_io(
-        module="src/ranking_evolved/core/controller.py",
+        module="src/rankevolve/core/controller.py",
         function="Controller._step (replay capture shape)",
         input={"iteration": 1},
         run=lambda: __import__("asyncio").run(go_inner()),

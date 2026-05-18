@@ -4,8 +4,8 @@ from __future__ import annotations
 import asyncio
 from types import SimpleNamespace
 
-from ranking_evolved.core.types import Prompt
-from ranking_evolved.proposers.anthropic import AnthropicProposer
+from rankevolve.core.types import Prompt
+from rankevolve.proposers.anthropic import AnthropicProposer
 
 
 DIFF = "<<<<<<< SEARCH\nold\n=======\nnew\n>>>>>>> REPLACE"
@@ -53,7 +53,7 @@ def test_anthropic_caches_system(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/proposers/anthropic.py",
+        module="src/rankevolve/proposers/anthropic.py",
         function="AnthropicProposer.propose (with cache)",
         input={"cache_system": True},
         run=run,
@@ -78,7 +78,7 @@ def test_anthropic_no_cache_when_disabled(record_io):
         return {"has_cache_control": "cache_control" in sysblock}
 
     out = record_io(
-        module="src/ranking_evolved/proposers/anthropic.py",
+        module="src/rankevolve/proposers/anthropic.py",
         function="AnthropicProposer.propose (no cache)",
         input={"cache_system": False},
         run=run,

@@ -11,8 +11,8 @@ from __future__ import annotations
 
 import asyncio
 
-from ranking_evolved.core.types import Prompt
-from ranking_evolved.proposers.openai_chat import OpenAIResponsesProposer
+from rankevolve.core.types import Prompt
+from rankevolve.proposers.openai_chat import OpenAIResponsesProposer
 
 
 DIFF = "<<<<<<< SEARCH\nold\n=======\nnew\n>>>>>>> REPLACE"
@@ -77,7 +77,7 @@ def test_responses_happy_path_output_text(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/proposers/openai_chat.py",
+        module="src/rankevolve/proposers/openai_chat.py",
         function="OpenAIResponsesProposer.propose (output_text)",
         input={"model": "gpt-5.2"},
         run=run,
@@ -117,7 +117,7 @@ def test_responses_falls_back_to_output_list_text(record_io):
         return {"raw_starts_with": cand.raw_response[:6], "n_blocks": len(cand.diff_blocks)}
 
     out = record_io(
-        module="src/ranking_evolved/proposers/openai_chat.py",
+        module="src/rankevolve/proposers/openai_chat.py",
         function="OpenAIResponsesProposer.propose (output[] fallback)",
         input={"output_text": "absent"},
         run=run,
@@ -139,7 +139,7 @@ def test_reasoning_effort_omitted_when_none(record_io):
         return {"has_reasoning": "reasoning" in body, "model": body["model"]}
 
     out = record_io(
-        module="src/ranking_evolved/proposers/openai_chat.py",
+        module="src/rankevolve/proposers/openai_chat.py",
         function="OpenAIResponsesProposer.propose (no reasoning_effort)",
         input={"reasoning_effort": None, "model": "gpt-5.2"},
         run=run,
@@ -165,7 +165,7 @@ def test_reasoning_effort_attached_when_set(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/proposers/openai_chat.py",
+        module="src/rankevolve/proposers/openai_chat.py",
         function="OpenAIResponsesProposer.propose (reasoning_effort=medium)",
         input={"reasoning_effort": "medium"},
         run=run,
@@ -193,7 +193,7 @@ def test_non_reasoning_model_includes_temperature_no_reasoning(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/proposers/openai_chat.py",
+        module="src/rankevolve/proposers/openai_chat.py",
         function="OpenAIResponsesProposer.propose (non-reasoning)",
         input={"model": "gpt-4o", "reasoning_effort_in_config": "medium"},
         run=run,
@@ -218,7 +218,7 @@ def test_responses_4xx_with_error_body_surfaces_message(record_io):
             return str(exc)
 
     out = record_io(
-        module="src/ranking_evolved/proposers/openai_chat.py",
+        module="src/rankevolve/proposers/openai_chat.py",
         function="OpenAIResponsesProposer.propose (4xx error body)",
         input={"status": 401},
         run=run,
@@ -242,7 +242,7 @@ def test_responses_2xx_with_error_body_surfaces_message(record_io):
             return str(exc)
 
     out = record_io(
-        module="src/ranking_evolved/proposers/openai_chat.py",
+        module="src/rankevolve/proposers/openai_chat.py",
         function="OpenAIResponsesProposer.propose (200 error body)",
         input={"status": 200},
         run=run,
@@ -270,7 +270,7 @@ def test_responses_incomplete_max_output_tokens_surfaces_actionable_hint(record_
             return str(exc)
 
     out = record_io(
-        module="src/ranking_evolved/proposers/openai_chat.py",
+        module="src/rankevolve/proposers/openai_chat.py",
         function="OpenAIResponsesProposer.propose (incomplete max_output_tokens)",
         input={"status": "incomplete", "reason": "max_output_tokens"},
         run=run,
@@ -304,7 +304,7 @@ def test_responses_5xx_retries_then_succeeds(record_io):
         return {"calls": client.calls, "raw_has_search": "SEARCH" in cand.raw_response}
 
     out = record_io(
-        module="src/ranking_evolved/proposers/openai_chat.py",
+        module="src/rankevolve/proposers/openai_chat.py",
         function="OpenAIResponsesProposer.propose (retry)",
         input={"sequence": [503, 200]},
         run=run,

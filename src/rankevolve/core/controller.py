@@ -76,7 +76,7 @@ class Controller:
         self.run_dir = Path(run_dir)
         self.proposer = proposer
         self.runner = runner
-        self.logger = logger or logging.getLogger("ranking_evolved.controller")
+        self.logger = logger or logging.getLogger("rankevolve.controller")
         self._config_path = Path(config_path) if config_path else None
         self._run_id = run_id or self.run_dir.name
 
@@ -185,7 +185,7 @@ class Controller:
         sampling = self.strategy.sampling_decisions(iteration, parent, inspirations)
         parent_island = sampling.parent_island
         self.logger.info(
-            "[ranking-evolved] iter=%04d island=%d parent=%s sampled %d inspirations",
+            "[rankevolve] iter=%04d island=%d parent=%s sampled %d inspirations",
             iteration,
             parent_island,
             _short_id(parent.id),
@@ -257,14 +257,14 @@ class Controller:
                 recent_failures=recent_failures or None,
             )
             self.logger.info(
-                "[ranking-evolved] iter=%04d attempt=%d/%d requesting proposal from LLM",
+                "[rankevolve] iter=%04d attempt=%d/%d requesting proposal from LLM",
                 iteration,
                 attempt,
                 max_attempts,
             )
             candidate = await self.proposer.propose(prompt)
             self.logger.info(
-                "[ranking-evolved] iter=%04d attempt=%d proposal received; applying diff",
+                "[rankevolve] iter=%04d attempt=%d proposal received; applying diff",
                 iteration,
                 attempt,
             )
@@ -296,7 +296,7 @@ class Controller:
 
             child_id = str(uuid.uuid4())
             self.logger.info(
-                "[ranking-evolved] iter=%04d attempt=%d evaluating candidate %s",
+                "[rankevolve] iter=%04d attempt=%d evaluating candidate %s",
                 iteration,
                 attempt,
                 _short_id(child_id),
@@ -345,7 +345,7 @@ class Controller:
             }
             if attempt > 1:
                 self.logger.info(
-                    "[ranking-evolved] iter=%04d recovered on attempt %d/%d",
+                    "[rankevolve] iter=%04d recovered on attempt %d/%d",
                     iteration,
                     attempt,
                     max_attempts,
@@ -514,7 +514,7 @@ class Controller:
         if state is None:
             raise RuntimeError(
                 f"cannot resume {self.run_dir}: run.db has no strategy_state. "
-                "Only runs created with resume-capable ranking-evolved can be resumed."
+                "Only runs created with resume-capable rankevolve can be resumed."
             )
         self.strategy.load_state_dict(state)
         best = self.strategy.best()
@@ -559,11 +559,11 @@ class Controller:
     async def _build_and_eval_seed(self, seed_path: Path) -> Program:
         seed_code = Path(seed_path).read_text()
         self.logger.info(
-            "[ranking-evolved] evaluating seed program %s",
+            "[rankevolve] evaluating seed program %s",
             seed_path,
         )
         eval_result = await self.runner.evaluate(seed_path)
-        self.logger.info("[ranking-evolved] seed evaluation complete")
+        self.logger.info("[rankevolve] seed evaluation complete")
         seed_id = "seed"
 
         metrics = dict(eval_result.metrics) if eval_result.metrics else {"combined_score": 0.0}
@@ -837,7 +837,7 @@ class Controller:
             markers.append("NEW BEST FOUND!")
         marker = (" " + " | ".join(markers)) if markers else ""
         self.logger.info(
-            "[ranking-evolved] iter=%04d island=%d gen=%d score=%s "
+            "[rankevolve] iter=%04d island=%d gen=%d score=%s "
             "parent_delta=%s beat_parent=%s recall@%d=%s ndcg@%d=%s "
             "latency_score=%s query_latency=%sms components=(recall=%s,ndcg=%s,latency=%s)%s",
             iteration,
@@ -980,7 +980,7 @@ class Controller:
             written = generate_run_plots(self.run_dir)
             if written:
                 self.logger.info(
-                    "[ranking-evolved] plots: %s",
+                    "[rankevolve] plots: %s",
                     ", ".join(str(path) for path in written),
                 )
         except (OSError, RuntimeError, ValueError) as exc:

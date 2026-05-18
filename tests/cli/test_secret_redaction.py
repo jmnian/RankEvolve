@@ -8,7 +8,7 @@ Tests both halves of the secret hygiene contract:
 
 from __future__ import annotations
 
-from ranking_evolved.cli import _dump_yaml_safely, _is_secret_key
+from rankevolve.cli import _dump_yaml_safely, _is_secret_key
 
 
 def test_is_secret_key_recognizes_common_secret_names():
@@ -52,7 +52,7 @@ def test_dump_yaml_safely_redacts_api_key_field(record_io):
         return _dump_yaml_safely(config)
 
     out = record_io(
-        module="src/ranking_evolved/cli.py",
+        module="src/rankevolve/cli.py",
         function="_dump_yaml_safely",
         input={"has_api_key": True, "has_auth_token": True},
         run=run,
@@ -76,7 +76,7 @@ def test_dump_yaml_safely_leaves_empty_api_key_alone(record_io):
         return _dump_yaml_safely(config)
 
     out = record_io(
-        module="src/ranking_evolved/cli.py",
+        module="src/rankevolve/cli.py",
         function="_dump_yaml_safely (empty api_key)",
         input={"api_key": ""},
         run=run,

@@ -5,8 +5,8 @@ from __future__ import annotations
 import time
 from dataclasses import dataclass
 
-from ranking_evolved.core.types import Program
-from ranking_evolved.prompts.sampler import PromptConfig, PromptSampler
+from rankevolve.core.types import Program
+from rankevolve.prompts.sampler import PromptConfig, PromptSampler
 
 
 def _program(id: str, *, iteration: int = 0, score: float = 0.1) -> Program:

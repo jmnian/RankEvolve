@@ -212,7 +212,7 @@ echo
 echo "[E] Launching evolve loop (max_iterations=${MAX_ITERATIONS})"
 EVAL_DEVICE="${EVAL_DEVICE}" PYTHONUNBUFFERED=1 \
   script -q "${LOG_DIR}/evolve.log" \
-  uv run ranking-evolved run \
+  uv run rankevolve run \
     --config "${CONFIG_FREEFORM}" \
     --replay \
     --max-iterations "${MAX_ITERATIONS}"

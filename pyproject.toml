@@ -1,5 +1,5 @@
 [project]
-name = "ranking-evolved"
+name = "rankevolve"
 version = "0.1.0"
 description = "Modular framework for evolving retrieval algorithms with LLM-driven program synthesis"
 readme = "README.md"
@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [project.scripts]
-ranking-evolved = "ranking_evolved.cli:main"
+rankevolve = "rankevolve.cli:main"
 
 [build-system]
 requires = ["hatchling"]

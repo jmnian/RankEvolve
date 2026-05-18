@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ranking_evolved.cli import _derive_task_label
+from rankevolve.cli import _derive_task_label
 
 
 def test_canonical_layout_yields_task_underscore_stem(tmp_path: Path, record_io):
@@ -16,7 +16,7 @@ def test_canonical_layout_yields_task_underscore_stem(tmp_path: Path, record_io)
     cfg.write_text("task: {seed: s.py, evaluator: e.py}\n")
 
     out = record_io(
-        module="src/ranking_evolved/cli.py",
+        module="src/rankevolve/cli.py",
         function="_derive_task_label",
         input={"config_path": "tasks/bm25/configs/freeform.yaml"},
         run=lambda: _derive_task_label(cfg),
@@ -30,7 +30,7 @@ def test_other_canonical_task_layout(tmp_path: Path, record_io):
     cfg.write_text("task: {seed: s.py, evaluator: e.py}\n")
 
     out = record_io(
-        module="src/ranking_evolved/cli.py",
+        module="src/rankevolve/cli.py",
         function="_derive_task_label",
         input={"config_path": "tasks/ql/configs/JM.yaml"},
         run=lambda: _derive_task_label(cfg),
@@ -44,7 +44,7 @@ def test_non_canonical_layout_falls_back_to_stem(tmp_path: Path, record_io):
     cfg.write_text("task: {seed: s.py, evaluator: e.py}\n")
 
     out = record_io(
-        module="src/ranking_evolved/cli.py",
+        module="src/rankevolve/cli.py",
         function="_derive_task_label (fallback)",
         input={"config_path": "experiments/ad_hoc.yaml"},
         run=lambda: _derive_task_label(cfg),

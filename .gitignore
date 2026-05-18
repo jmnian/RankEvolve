@@ -211,7 +211,7 @@ __marimo__/
 cache/
 datasets/
 openevolve/
-src/ranking_evolved/openevolve_output/
+src/rankevolve/openevolve_output/
 output/
 reports/
 legacy/

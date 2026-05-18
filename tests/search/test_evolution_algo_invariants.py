@@ -14,7 +14,7 @@ def _run_evolution_algo_test() -> Path:
     cmd = [
         sys.executable,
         "-m",
-        "ranking_evolved.cli",
+        "rankevolve.cli",
         "run",
         "--config",
         str(CONFIG_PATH),
@@ -37,7 +37,7 @@ def _run_evolution_algo_test() -> Path:
 
     run_dir_line = None
     for line in result.stdout.splitlines():
-        if line.startswith("[ranking-evolved] run dir:"):
+        if line.startswith("[rankevolve] run dir:"):
             run_dir_line = line
             break
 

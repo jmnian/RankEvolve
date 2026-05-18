@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from ranking_evolved.core.replay_dashboard import render_dashboard
+from rankevolve.core.replay_dashboard import render_dashboard
 
 
 def _write_step(path: Path, iteration: int, *, parent_score: float, child_score: float) -> None:
@@ -63,7 +63,7 @@ def test_dashboard_renders_index_and_step_details(tmp_path: Path, record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/core/replay_dashboard.py",
+        module="src/rankevolve/core/replay_dashboard.py",
         function="render_dashboard (no reference)",
         input={"n_steps": 2},
         run=run,
@@ -104,7 +104,7 @@ def test_dashboard_renders_reference_side_by_side(tmp_path: Path, record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/core/replay_dashboard.py",
+        module="src/rankevolve/core/replay_dashboard.py",
         function="render_dashboard (with reference)",
         input={"n_steps": 1, "reference_score_diff": 0.01},
         run=run,

@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from ranking_evolved.core.manifest import (
+from rankevolve.core.manifest import (
     Manifest,
     build_manifest,
     make_run_id,
@@ -32,7 +32,7 @@ def test_manifest_write_and_update(tmp_path: Path, record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/core/manifest.py",
+        module="src/rankevolve/core/manifest.py",
         function="write_manifest+update_manifest",
         input={"task": "bm25", "config_path": "tasks/bm25/configs/freeform.yaml"},
         run=run,

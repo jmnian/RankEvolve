@@ -11,7 +11,7 @@
 # Run:
 #   export OPENAI_API_KEY=...    # only needed if proposer.kind: openai_chat
 #   export EVAL_EXCLUDE_DATASETS="dl19,dl20,fever,climate-fever,hotpotqa,..."
-#   uv run ranking-evolved run --config tasks/bm25/configs/freeform.yaml --replay --max-iterations 10
+#   uv run rankevolve run --config tasks/bm25/configs/freeform.yaml --replay --max-iterations 10
 
 task:
   seed: tasks/bm25/seeds/freeform.py

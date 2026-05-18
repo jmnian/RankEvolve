@@ -85,7 +85,7 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>ranking-evolved test dashboard</title>
+<title>rankevolve test dashboard</title>
 <style>
 body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
        margin: 2rem; color: #1a1a1a; }}
@@ -112,7 +112,7 @@ code {{ font-size: 0.88rem; }}
 </style>
 </head>
 <body>
-<h1>ranking-evolved test dashboard</h1>
+<h1>rankevolve test dashboard</h1>
 <div class="meta">Generated {generated_at} &middot; pytest exit {exit_status}</div>
 <div class="summary">
   <span class="total">Total: {total}</span>

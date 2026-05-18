@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import pytest
 
-from ranking_evolved.prompts.diff import DiffError, apply_search_replace
+from rankevolve.prompts.diff import DiffError, apply_search_replace
 
 
 def _wrap(search: str, replace: str) -> str:
@@ -25,7 +25,7 @@ def test_apply_single_block(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/prompts/diff.py",
+        module="src/rankevolve/prompts/diff.py",
         function="apply_search_replace",
         input={"parent": parent, "raw": raw},
         run=run,
@@ -48,7 +48,7 @@ def test_multi_block_in_order(record_io):
         return {"new": new, "n_applied": app.n_applied}
 
     out = record_io(
-        module="src/ranking_evolved/prompts/diff.py",
+        module="src/rankevolve/prompts/diff.py",
         function="apply_search_replace",
         input={"parent": parent, "n_blocks": 2},
         run=run,
@@ -72,7 +72,7 @@ def test_no_match_raises(record_io):
             }
 
     out = record_io(
-        module="src/ranking_evolved/prompts/diff.py",
+        module="src/rankevolve/prompts/diff.py",
         function="apply_search_replace",
         input={"parent": parent, "scenario": "search text not found"},
         run=run,
@@ -99,7 +99,7 @@ def test_ambiguous_match_raises_even_with_fuzzy(record_io):
         return {"results": results}
 
     out = record_io(
-        module="src/ranking_evolved/prompts/diff.py",
+        module="src/rankevolve/prompts/diff.py",
         function="apply_search_replace",
         input={"parent": parent, "scenario": "duplicate search text -> always raise"},
         run=run,
@@ -125,7 +125,7 @@ def test_fuzzy_succeeds_on_unique_whitespace_variant(record_io):
         return {"new": new, "n_applied": app.n_applied}
 
     out = record_io(
-        module="src/ranking_evolved/prompts/diff.py",
+        module="src/rankevolve/prompts/diff.py",
         function="apply_search_replace[fuzzy=True]",
         input={"parent_has_double_space": True, "diff_has_single_space": True},
         run=run,

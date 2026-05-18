@@ -3,8 +3,8 @@ from __future__ import annotations
 
 import asyncio
 
-from ranking_evolved.core.types import Prompt
-from ranking_evolved.proposers.fake import FakeProposer
+from rankevolve.core.types import Prompt
+from rankevolve.proposers.fake import FakeProposer
 
 
 def _prompt(iter_: int = 1) -> Prompt:
@@ -29,7 +29,7 @@ def test_fake_transcript_cycles(record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/proposers/fake.py",
+        module="src/rankevolve/proposers/fake.py",
         function="FakeProposer.propose (transcript)",
         input={"n_responses": 2, "calls": 3},
         run=run,
@@ -50,7 +50,7 @@ def test_fake_callback_uses_prompt(record_io):
         return out.raw_response
 
     out = record_io(
-        module="src/ranking_evolved/proposers/fake.py",
+        module="src/rankevolve/proposers/fake.py",
         function="FakeProposer.propose (callback)",
         input={"iteration": 7, "parent_id": "p"},
         run=run,

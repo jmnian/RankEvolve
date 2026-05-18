@@ -45,13 +45,13 @@ Output Format (for OpenEvolve):
 Usage:
 ======
     # Full evaluation
-    python evaluator_parallel.py src/ranking_evolved/bm25_classic.py
+    python evaluator_parallel.py src/rankevolve/bm25_classic.py
 
     # With query sampling for faster iteration
-    python evaluator_parallel.py src/ranking_evolved/bm25_classic.py --sample-queries 20
+    python evaluator_parallel.py src/rankevolve/bm25_classic.py --sample-queries 20
 
     # Specific benchmarks only
-    python evaluator_parallel.py src/ranking_evolved/bm25_classic.py --only-bright
+    python evaluator_parallel.py src/rankevolve/bm25_classic.py --only-bright
 
 Environment Variables (for OpenEvolve):
 =======================================
@@ -1584,19 +1584,19 @@ def main() -> None:
         epilog="""
 Examples:
   # Full evaluation (31 datasets)
-  python evaluator_parallel.py src/ranking_evolved/bm25_classic.py
+  python evaluator_parallel.py src/rankevolve/bm25_classic.py
 
   # Fast iteration with sampling
-  python evaluator_parallel.py src/ranking_evolved/bm25_classic.py --sample-queries 20
+  python evaluator_parallel.py src/rankevolve/bm25_classic.py --sample-queries 20
 
   # BRIGHT only
-  python evaluator_parallel.py src/ranking_evolved/bm25_classic.py --only-bright
+  python evaluator_parallel.py src/rankevolve/bm25_classic.py --only-bright
 
   # Save results to file
-  python evaluator_parallel.py src/ranking_evolved/bm25_classic.py --save results/baseline.json
+  python evaluator_parallel.py src/rankevolve/bm25_classic.py --save results/baseline.json
 
   # Control parallelism
-  python evaluator_parallel.py src/ranking_evolved/bm25_classic.py --max-workers 16
+  python evaluator_parallel.py src/rankevolve/bm25_classic.py --max-workers 16
 
 Parallelization:
   - Dataset-level: ProcessPoolExecutor (isolated memory)

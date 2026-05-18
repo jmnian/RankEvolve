@@ -3,11 +3,11 @@
 The QL files in this directory were structurally relocated during the
 Phase-2 modular restructuring but their imports, evaluator wiring, and
 seed contract have **NOT** been validated against the new
-`ranking-evolved` framework.
+`rankevolve` framework.
 
-Do **NOT** run via `ranking-evolved run --config tasks/ql/...` — there
+Do **NOT** run via `rankevolve run --config tasks/ql/...` — there
 are no configs yet, and the seed/library imports still reference the
-pre-Phase-2 layout (`from ranking_evolved.bm25 import ...` etc.).
+pre-Phase-2 layout (`from rankevolve.bm25 import ...` etc.).
 
 To migrate QL in a future phase:
 

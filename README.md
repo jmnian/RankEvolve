@@ -51,21 +51,21 @@ export EVAL_EXCLUDE_DATASETS="dl19,dl20,fever,climate-fever,hotpotqa,dbpedia-ent
 
 ```bash
 # Sanity check: run the dashboard tests.
-uv run ranking-evolved test-dashboard
+uv run rankevolve test-dashboard
 # → reports/test_dashboard.html
 
 # Drive an evolution loop on the latency-aware BM25 task (50 iterations).
-uv run ranking-evolved run \
+uv run rankevolve run \
   --config tasks/bm25/configs/freeform_latency_aware.yaml \
   --replay --max-iterations 50
 
 # Resume an in-progress run; --max-iterations is the total target.
-uv run ranking-evolved run \
+uv run rankevolve run \
   --resume output/bm25_freeform_latency_aware/<run_id> \
   --max-iterations 200
 
 # Render the per-step replay dashboard.
-uv run ranking-evolved replay-dashboard --run output/bm25_freeform_latency_aware/<run_id>
+uv run rankevolve replay-dashboard --run output/bm25_freeform_latency_aware/<run_id>
 ```
 
 Each invocation produces a self-contained run directory under
@@ -77,7 +77,7 @@ truth), `trace.jsonl` (streaming event log), `replay/step_NNNN.json`,
 ## Repository layout
 
 ```
-src/ranking_evolved/      framework: engine, search, proposers, prompts, evaluation, config
+src/rankevolve/      framework: engine, search, proposers, prompts, evaluation, config
 tasks/
 ├── bm25/                 active BM25 task (library + evaluator + seeds + configs)
 ├── ql/                   relocated only — not yet migrated; see tasks/ql/README.md
@@ -99,9 +99,9 @@ at the seed and evaluator. `tasks/bm25/` is the canonical example.
 
 | Component       | Plug-in point                                           | Built-ins |
 | --------------- | ------------------------------------------------------- | --------- |
-| Proposer        | `src/ranking_evolved/proposers/`                        | `openai_responses`, `anthropic`, `claude_code`, `codex`, `ensemble`, `scripted`, `fake` |
-| Search strategy | `src/ranking_evolved/search/`                           | `map_elites_islands` (default) |
-| Prompt builder  | `src/ranking_evolved/prompts/sampler.py`                | parent + inspiration + artifact context |
+| Proposer        | `src/rankevolve/proposers/`                        | `openai_responses`, `anthropic`, `claude_code`, `codex`, `ensemble`, `scripted`, `fake` |
+| Search strategy | `src/rankevolve/search/`                           | `map_elites_islands` (default) |
+| Prompt builder  | `src/rankevolve/prompts/sampler.py`                | parent + inspiration + artifact context |
 | Evaluator       | user-supplied `evaluate(program_path)` in a `tasks/` folder | — |
 
 New proposers and strategies self-register via the registries in

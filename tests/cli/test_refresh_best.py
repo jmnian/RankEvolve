@@ -3,9 +3,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from ranking_evolved.cli import main
-from ranking_evolved.core.run_store import RunStore
-from ranking_evolved.core.types import Program
+from rankevolve.cli import main
+from rankevolve.core.run_store import RunStore
+from rankevolve.core.types import Program
 
 
 def _program(program_id: str, *, score: float, iteration: int) -> Program:
@@ -37,7 +37,7 @@ def test_refresh_best_writes_step_provenance(tmp_path: Path, record_io):
         store.close()
 
     out = record_io(
-        module="src/ranking_evolved/cli.py",
+        module="src/rankevolve/cli.py",
         function="refresh-best",
         input={"run": str(run_dir)},
         run=lambda: main(["refresh-best", "--run", str(run_dir)]),

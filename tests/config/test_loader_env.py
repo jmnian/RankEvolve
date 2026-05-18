@@ -5,7 +5,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
-from ranking_evolved.config.loader import load_config
+from rankevolve.config.loader import load_config
 
 
 _MINIMAL_YAML = """\
@@ -36,7 +36,7 @@ def test_env_file_loaded_before_interpolation(tmp_path: Path, monkeypatch, recor
         }
 
     out = record_io(
-        module="src/ranking_evolved/config/loader.py",
+        module="src/rankevolve/config/loader.py",
         function="load_config (auto-load .env)",
         input={".env": "OPENAI_API_KEY=sk-from-dotenv"},
         run=run,
@@ -56,7 +56,7 @@ def test_shell_env_takes_precedence_over_dotenv(tmp_path: Path, monkeypatch, rec
         return cfg.proposer.api_key
 
     out = record_io(
-        module="src/ranking_evolved/config/loader.py",
+        module="src/rankevolve/config/loader.py",
         function="load_config (shell wins)",
         input={"shell": "sk-from-shell", ".env": "sk-from-dotenv"},
         run=run,
@@ -93,7 +93,7 @@ def test_dotenv_handles_quotes_comments_and_export(tmp_path: Path, monkeypatch, 
         }
 
     out = record_io(
-        module="src/ranking_evolved/config/loader.py",
+        module="src/rankevolve/config/loader.py",
         function="_load_env_file (quotes/export/comments)",
         input={".env": "quoted, export, comment"},
         run=run,
@@ -125,7 +125,7 @@ def test_loader_refuses_literal_api_key_in_yaml(tmp_path: Path, monkeypatch, rec
             return str(exc)
 
     out = record_io(
-        module="src/ranking_evolved/config/loader.py",
+        module="src/rankevolve/config/loader.py",
         function="load_config (literal-key refusal)",
         input={"yaml_has_literal_key": True},
         run=run,
@@ -147,7 +147,7 @@ def test_loader_allows_env_interpolated_api_key(tmp_path: Path, monkeypatch, rec
         return cfg.proposer.api_key
 
     out = record_io(
-        module="src/ranking_evolved/config/loader.py",
+        module="src/rankevolve/config/loader.py",
         function="load_config (env-interpolated key allowed)",
         input={"OPENAI_API_KEY shape": "sk-proj-..."},
         run=run,
@@ -168,7 +168,7 @@ def test_explicit_env_file_required_to_exist(tmp_path: Path, record_io):
             return str(exc)
 
     out = record_io(
-        module="src/ranking_evolved/config/loader.py",
+        module="src/rankevolve/config/loader.py",
         function="load_config(env_file=...) (missing)",
         input={"env_file": "missing.env"},
         run=run,

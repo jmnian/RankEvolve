@@ -40,7 +40,7 @@ Everything in this doc exists to answer that question. Cache format zoos, prior-
 
 Reusable framework pieces (don't reinvent):
 
-- Latency-aware objective math in [src/ranking_evolved/evaluation/objective_math.py](../src/ranking_evolved/evaluation/objective_math.py): `inverse_one_plus_ratio` transform, `hard_slowdown_threshold`, per-dataset baseline-relative scoring. The late-interaction YAML can drop `objective:` in directly the way [tasks/bm25/configs/freeform_latency_aware.yaml](../tasks/bm25/configs/freeform_latency_aware.yaml) does.
+- Latency-aware objective math in [src/rankevolve/evaluation/objective_math.py](../src/rankevolve/evaluation/objective_math.py): `inverse_one_plus_ratio` transform, `hard_slowdown_threshold`, per-dataset baseline-relative scoring. The late-interaction YAML can drop `objective:` in directly the way [tasks/bm25/configs/freeform_latency_aware.yaml](../tasks/bm25/configs/freeform_latency_aware.yaml) does.
 - Run-directory layout, replay capture, controller loop: nothing task-specific needed.
 
 ---
@@ -153,7 +153,7 @@ Files:
     ```
     Both the latency baseline (controller's external-baseline loader) and the recall floor read the per-dataset blocks; keys starting with `_` are skipped by the loader.
 - `tasks/late_interaction/baselines/<program>.cpu.json` and `<program>.cuda.json` — one per program × device, checked in.
-- `src/ranking_evolved/core/controller.py` — extend baseline loader to support `objective.latency.baseline_source: external` with `${EVAL_DEVICE}`-interpolated `baseline_path`; assert fingerprint match; new branch alongside `seed` and `disk`. One unit test under `tests/evaluation/`.
+- `src/rankevolve/core/controller.py` — extend baseline loader to support `objective.latency.baseline_source: external` with `${EVAL_DEVICE}`-interpolated `baseline_path`; assert fingerprint match; new branch alongside `seed` and `disk`. One unit test under `tests/evaluation/`.
 - `tests/tasks/late_interaction/test_latency_fairness.py` (new) — invariants 2, 3, 9, 14, 15.
 
 Verification:
@@ -198,7 +198,7 @@ Files:
 Verification:
 
 ```bash
-uv run ranking-evolved run \
+uv run rankevolve run \
   --config tasks/late_interaction/configs/freeform_latency_aware.yaml \
   --replay --max-iterations 3
 ```

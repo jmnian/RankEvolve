@@ -9,15 +9,15 @@ import re
 import sqlite3
 from pathlib import Path
 
-from ranking_evolved.config.base import (
+from rankevolve.config.base import (
     Config, EvaluationConfig, EvolutionConfig, LoggingConfig,
     ProposerConfig, RunStoreConfig, TaskConfig, TraceConfig,
 )
-from ranking_evolved.core.controller import Controller
-from ranking_evolved.evaluation.runner import EvaluatorRunner
-from ranking_evolved.prompts.sampler import PromptConfig
-from ranking_evolved.proposers.claude_code import ClaudeCodeProposer
-from ranking_evolved.search.map_elites_islands import MapElitesIslandsConfig
+from rankevolve.core.controller import Controller
+from rankevolve.evaluation.runner import EvaluatorRunner
+from rankevolve.prompts.sampler import PromptConfig
+from rankevolve.proposers.claude_code import ClaudeCodeProposer
+from rankevolve.search.map_elites_islands import MapElitesIslandsConfig
 
 
 SEED_SOURCE = "x = 1\n"
@@ -100,7 +100,7 @@ def test_smoke_claude_code_3_iter(tmp_path: Path, record_io):
         }
 
     out = record_io(
-        module="src/ranking_evolved/proposers/claude_code.py",
+        module="src/rankevolve/proposers/claude_code.py",
         function="ClaudeCodeProposer + Controller (3-iter smoke)",
         input={"max_iterations": 3, "proposer": "claude_code"},
         run=lambda: __import__("asyncio").run(go()),

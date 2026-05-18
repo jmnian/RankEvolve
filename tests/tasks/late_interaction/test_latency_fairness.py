@@ -171,7 +171,7 @@ def test_invariant_14_loader_rejects_device_mismatch(tmp_path):
     Already covered in tests/evaluation/test_external_baseline.py; we restate
     it here so a future grep on `test_latency_fairness` shows the full set.
     """
-    from ranking_evolved.evaluation.external_baseline import (
+    from rankevolve.evaluation.external_baseline import (
         ExternalBaselineError,
         load_external_baseline,
     )

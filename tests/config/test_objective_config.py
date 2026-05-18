@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from ranking_evolved.config.loader import load_config
+from rankevolve.config.loader import load_config
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]

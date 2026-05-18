@@ -3,8 +3,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ranking_evolved.core.run_store import RunStore
-from ranking_evolved.core.types import Program
+from rankevolve.core.run_store import RunStore
+from rankevolve.core.types import Program
 
 
 def _mk_program(
@@ -58,7 +58,7 @@ def test_run_store_roundtrip(tmp_path: Path, record_io):
             store.close()
 
     out = record_io(
-        module="src/ranking_evolved/core/run_store.py",
+        module="src/rankevolve/core/run_store.py",
         function="RunStore.add_program/get_program/iter_programs",
         input={"programs": ["seed", "c1"], "iterations": [1]},
         run=run,
@@ -87,7 +87,7 @@ def test_run_store_archive_cells(tmp_path: Path, record_io):
             store.close()
 
     out = record_io(
-        module="src/ranking_evolved/core/run_store.py",
+        module="src/rankevolve/core/run_store.py",
         function="RunStore.upsert_archive_cell",
         input={"writes": [(0, "1,2", "p1"), (0, "3,4", "p2"), (0, "1,2", "p3"), (1, "1,2", "p4")]},
         run=run,
@@ -109,7 +109,7 @@ def test_run_store_replace_archive_cells_removes_stale_rows(tmp_path: Path, reco
             store.close()
 
     out = record_io(
-        module="src/ranking_evolved/core/run_store.py",
+        module="src/rankevolve/core/run_store.py",
         function="RunStore.replace_archive_cells",
         input={"cells": [(0, "new", "p_new")]},
         run=run,
@@ -136,7 +136,7 @@ def test_run_store_transaction_rollback(tmp_path: Path, record_io):
             store.close()
 
     out = record_io(
-        module="src/ranking_evolved/core/run_store.py",
+        module="src/rankevolve/core/run_store.py",
         function="RunStore.transaction",
         input={"scenario": "duplicate primary key inside transaction"},
         run=run,

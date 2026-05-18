@@ -4,8 +4,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from ranking_evolved.core.replay import ReplayWriter, build_step
-from ranking_evolved.core.types import (
+from rankevolve.core.replay import ReplayWriter, build_step
+from rankevolve.core.types import (
     AdmissionDecisions,
     DiffApplication,
     DiffBlock,
@@ -82,7 +82,7 @@ def test_replay_writer_dumps_full_step(tmp_path: Path, record_io):
         return {"path": out.name, "json_keys": sorted(json.loads(out.read_text()).keys())}
 
     out = record_io(
-        module="src/ranking_evolved/core/replay.py",
+        module="src/rankevolve/core/replay.py",
         function="ReplayWriter.write",
         input={"iteration": 1, "parent": "seed", "child": "c1"},
         run=run,

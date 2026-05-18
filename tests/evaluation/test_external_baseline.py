@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from ranking_evolved.evaluation.external_baseline import (
+from rankevolve.evaluation.external_baseline import (
     ExternalBaselineError,
     detect_runtime_device,
     load_external_baseline,
